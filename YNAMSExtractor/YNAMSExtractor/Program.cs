@@ -50,7 +50,7 @@ namespace YNAMSExtractor
             // So it turns out the WzFile stuff is either broken or I'm dumb. If you try to call dispose, 
             // it doesn't appropriately close the memory mapped file so when you try to make a new one
             // it doesn't turn out so well.
- 
+
             string path = GetWZFilePath(out shouldQuit);
 
             if (shouldQuit == SpecialChoices.Quit || shouldQuit == SpecialChoices.Back)
@@ -118,41 +118,52 @@ namespace YNAMSExtractor
             }
 
             Console.WriteLine();
-            Console.WriteLine("Special Options: Q - Quit, B - Back, V - Get Value");
+            
 
             // TODO: Add bounds checking and re-trying till they select a real option
-            Console.Write("Option: ");
-            string input = Console.ReadLine();
-            Console.WriteLine();
-
-            switch (input.ToLower())
+            while (choice == SpecialChoices.None)
             {
-                // Back will return -1 which signals we should go up
-                case "b":
-                case ".":
-                case "back":
-                case "":
-                    {
-                        choice = SpecialChoices.Back;
-                        break;
-                    }
-                case "q":
-                case "quit":
-                    {
-                        choice = SpecialChoices.Quit;
-                        break;
-                    }
-                case "v":
-                    {
-                        choice = SpecialChoices.GetValue;
-                        break;
-                    }
-                default:
-                    {
-                        choice = SpecialChoices.ValueSelected;
-                        numericChoice = int.Parse(input);
-                        break;
-                    }
+                Console.WriteLine("Special Options: Q - Quit, B - Back, V - Get Value");
+                Console.Write("Option: ");
+                string input = Console.ReadLine();
+                Console.WriteLine();
+
+                switch (input.ToLower())
+                {
+                    // Back will return -1 which signals we should go up
+                    case "b":
+                    case ".":
+                    case "back":
+                    case "":
+                        {
+                            choice = SpecialChoices.Back;
+                            break;
+                        }
+                    case "q":
+                    case "quit":
+                        {
+                            choice = SpecialChoices.Quit;
+                            break;
+                        }
+                    case "v":
+                        {
+                            choice = SpecialChoices.GetValue;
+                            break;
+                        }
+                    default:
+                        {
+                            bool success = int.TryParse(input, out numericChoice);
+                            if (success && numericChoice-1 >= 0 && numericChoice-1 < options.Count)
+                            {
+                                choice = SpecialChoices.ValueSelected;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid choice!\n");
+                            }
+                            break;
+                        }
+                }
             }
 
 
