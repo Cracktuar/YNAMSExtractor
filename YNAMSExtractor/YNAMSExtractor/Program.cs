@@ -146,6 +146,7 @@ namespace YNAMSExtractor
                             break;
                         }
                     case "v":
+                    case "value":
                         {
                             choice = SpecialChoices.GetValue;
                             break;
