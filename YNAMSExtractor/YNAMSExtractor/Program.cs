@@ -56,7 +56,7 @@ namespace YNAMSExtractor
             if (shouldQuit == SpecialChoices.Quit || shouldQuit == SpecialChoices.Back)
             {
                 Console.WriteLine("Quitting...");
-                break;
+                return;
             }
 
             if (!loadedFiles.ContainsKey(path))
